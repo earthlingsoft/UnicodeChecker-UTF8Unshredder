@@ -2,8 +2,8 @@
 //  UTF8UnshredderController.m
 //  UC UTF8 Unshredder
 //
-//  Created by  Sven on 08.05.08.
-//  Copyright 2008 earthlingsoft. All rights reserved.
+//  Created by Sven on 08.05.2008.
+//  Copyright 2008-2014 earthlingsoft. All rights reserved.
 //
 
 #import "UTF8UnshredderController.h"
@@ -42,14 +42,11 @@
 }
 
 
-
 /*
 - (void) dealloc {
 	[super dealloc];
 }
 */
-
-
 
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -143,7 +140,7 @@
 				}
 				else {
 					// the different encodings all give the same result
-					message = [NSString stringWithFormat:@"The input may have been UTF-8. Interpreting it in %i encodings gives the string below.", [encodingsArray count], nil];
+					message = [NSString stringWithFormat:@"The input may have been UTF-8. Interpreting it in %lu encodings gives the string below.", (unsigned long)[encodingsArray count], nil];
 					encodingEnumerator = [encodingsArray objectEnumerator];
 					NSMutableString * encodingNames = [NSMutableString stringWithString:@"The encodings in question are:"];
 					while (encodingNumber = [encodingEnumerator nextObject]) {
@@ -195,10 +192,10 @@
 
 
 
-- (void) rebuildPopupWithEncodings: (NSArray*) encodingsArray {
+- (void) rebuildPopupWithEncodings:(NSArray *)encodingsArray {
 	NSMutableArray * encodings = [encodingsArray mutableCopy];
-	NSSortDescriptor * sortByResult =  [[[NSSortDescriptor alloc] initWithKey:CONVERSIONRESULT ascending:YES] autorelease];
-	NSSortDescriptor * sortByEncodingNumber =  [[[NSSortDescriptor alloc] initWithKey:CONVERSIONENCODING ascending:YES] autorelease];
+	NSSortDescriptor * sortByResult =  [[NSSortDescriptor alloc] initWithKey:CONVERSIONRESULT ascending:YES];
+	NSSortDescriptor * sortByEncodingNumber =  [[NSSortDescriptor alloc] initWithKey:CONVERSIONENCODING ascending:YES];
 	// sort encodings by their results 
 	[encodings sortUsingDescriptors:[NSArray arrayWithObjects: sortByResult, sortByEncodingNumber, nil]];
 	
@@ -216,7 +213,7 @@
 				// no separator before the first item
 				[[popup menu] addItem: [NSMenuItem separatorItem]];
 			}
-			NSMenuItem * representingString = [[[NSMenuItem  alloc] initWithTitle:encodingResult action:NULL keyEquivalent:@""] autorelease];
+			NSMenuItem * representingString = [[NSMenuItem  alloc] initWithTitle:encodingResult action:NULL keyEquivalent:@""];
 			[representingString setEnabled:NO];
 			[[popup menu] addItem:representingString];
 		}
@@ -231,11 +228,12 @@
 
 
 
-/* When the popup's selection was changed manually, store the selected value as preferredEncoding.
+/*
+	When the popup's selection was changed manually, store the selected value as preferredEncoding.
 	The preferred encoding will be be given precendence when having to select an encoding
 	The IBAction is called after KVO, so we just have to copy selectedEncoding over to preferredEncoding.
 */
-- (IBAction) changedPopupSelection: (id) sender {
+- (IBAction) changedPopupSelection:(id)sender {
 	NSNumber * encodingNumber = [self valueForKey:@"selectedEncoding"];
 	[self setValue:encodingNumber forKey:@"preferredEncoding"];
 	[[NSUserDefaults standardUserDefaults] setValue:encodingNumber forKey:PREFERREDENCODINGPREFSKEY];
@@ -243,7 +241,8 @@
 
 
 
-/* Delegate method for the text field.
+/*
+	Delegate method for the text field.
 	We don't want text to be editable, but we cannot mark the text field non-editable as that would take it out of the tab loop.
 */
 - (BOOL)control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor {
@@ -321,7 +320,7 @@
 	Returns whether the string s can be converted to the string encoding encoding.
 	The useCarbonEncodings variable specifies whether this is done NS or CF style.
 */
-- (BOOL) canConvertString: (NSString*) s toEncoding:(NSNumber*) encodingNumber {
+- (BOOL) canConvertString:(NSString *)s toEncoding:(NSNumber *)encodingNumber {
 	// NSStringEncoding and CFStringEncoding are unsigned long
 	unsigned long encoding = [encodingNumber unsignedLongValue]; 	
 	BOOL result;
@@ -340,10 +339,10 @@
 
 
 /*
- Converts the string s to the string encoding whose number is given in the encodingNumber object
- The useCarbonEncodings variable specifies whether this is to be done Carbon or Cocoa style.
+	Converts the string s to the string encoding whose number is given in the encodingNumber object
+	The useCarbonEncodings variable specifies whether this is to be done Carbon or Cocoa style.
 */
-- (NSString *) convert:(NSString *) input forEncoding:(NSNumber*) encodingNumber {
+- (NSString *) convert:(NSString *)input forEncoding:(NSNumber *)encodingNumber {
 	NSString * result = @"";
 	// NSStringEncoding and CFStringEncoding are unsigned long
 	unsigned long encoding = [encodingNumber unsignedLongValue];
@@ -352,7 +351,7 @@
 		if (!useCarbonEncodings) {
 			const char * chars;
 			chars = [input cStringUsingEncoding:(NSStringEncoding) encoding];
-			result = [[[NSString alloc] initWithBytes:chars length:strlen(chars) encoding:NSUTF8StringEncoding] autorelease];
+			result = [[NSString alloc] initWithBytes:chars length:strlen(chars) encoding:NSUTF8StringEncoding];
 		}
 		else {
 			NSMutableData * theData = [NSMutableData dataWithCapacity:[input length]];
@@ -371,7 +370,7 @@
 				rangeToProcess.length -= numChars;
 			}
 			
-			result = (NSString*) CFStringCreateWithBytes(NULL, [theData bytes], [theData length], kCFStringEncodingUTF8, false);
+			result = (NSString*) CFBridgingRelease(CFStringCreateWithBytes(NULL, [theData bytes], [theData length], kCFStringEncodingUTF8, false));
 		}
 	}
 
@@ -381,10 +380,10 @@
 
 
 /*
- Returns the name of the encoding with the number passed in encodingNumber.
- The useCarbonEncodings variable specifies whether this is done NS or CF style.
- */
-- (NSString *) encodingNameForNumber: (NSNumber*) encodingNumber {
+	Returns the name of the encoding with the number passed in encodingNumber.
+	The useCarbonEncodings variable specifies whether this is done NS or CF style.
+*/
+- (NSString *) encodingNameForNumber:(NSNumber *)encodingNumber {
 	NSString * name;
 	unsigned long encoding = [encodingNumber unsignedLongValue];
 	
@@ -405,40 +404,34 @@
 
 #pragma mark UCUtility protocol
 
-- (void)newInput:(id)sender {
+- (void) newInput:(id)sender {
 	[self setValue:[sender stringValue] forKey:@"inputString"];
 }
 
-
-- (NSString *)identifier {
+- (NSString *) identifier {
     return @"UTF8Unshredder";
 }
 
-- (NSString *)toolbarLabel {
+- (NSString *) toolbarLabel {
     return @"UTF-8 Unshredder";
 }
 
-- (NSString *)toolbarToolTip {
+- (NSString *) toolbarToolTip {
     return @"Fix UTF-8 strings that have been garbled by wrong use of text encodings.";
 }
 
-- (NSImage *)toolbarImage {
-    NSBundle *myBundle = [NSBundle bundleForClass:[self class]];
-    NSString *imagePath = [myBundle pathForResource:@"Icon" ofType:@"png"];
-    return [[[NSImage alloc] initByReferencingFile:imagePath] autorelease];
+- (NSImage *) toolbarImage {
+    NSBundle * myBundle = [NSBundle bundleForClass:[self class]];
+    NSString * imagePath = [myBundle pathForResource:@"Icon" ofType:@"png"];
+    return [[NSImage alloc] initByReferencingFile:imagePath];
 }
 
-- (NSView *)utilityView {
-    if(!view) {
-        [NSBundle loadNibNamed:@"Unshredder" owner:self];
+- (NSView *) utilityView {
+	NSArray * nibObjects;
+    if(!self.view) {
+		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"Unshredder" owner:self topLevelObjects:&nibObjects];
     }
-    return view;
+    return self.view;
 }
-
-- (NSView *)initialKeyView {
-    return initialKeyView;
-}
-
-
 
 @end

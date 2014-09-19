@@ -2,8 +2,8 @@
 //  UTF8UnshredderController.h
 //  UC UTF8 Unshredder
 //
-//  Created by  Sven on 08.05.08.
-//  Copyright 2008 earthlingsoft. All rights reserved.
+//  Created by Sven on 08.05.2008.
+//  Copyright 2008-2014 earthlingsoft. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -29,20 +29,19 @@
 	
 	NSArray * encodingList;
 	
-	IBOutlet NSView *view;
-	IBOutlet NSView *initialKeyView;	
 	IBOutlet NSPopUpButton * popup;
-	
 	
 	BOOL useCarbonEncodings;
 }
 
-- (IBAction) changedPopupSelection: (id) sender;
+@property (strong) IBOutlet NSView * view;
 
-- (void) rebuildPopupWithEncodings: (NSArray*) encodingsArray;
+- (IBAction) changedPopupSelection:(id)sender;
 
-- (NSArray*) buildEncodingList;
-- (BOOL) canConvertString: (NSString*) s toEncoding:(NSNumber*) encodingNumber;
-- (NSString *) convert:(NSString *) input forEncoding:(NSNumber*) encoding;
-- (NSString *) encodingNameForNumber: (NSNumber*) number;
+- (void) rebuildPopupWithEncodings:(NSArray *)encodingsArray;
+
+- (NSArray *) buildEncodingList;
+- (BOOL) canConvertString:(NSString *)s toEncoding:(NSNumber *)encodingNumber;
+- (NSString *) convert:(NSString *)input forEncoding:(NSNumber *)encoding;
+- (NSString *) encodingNameForNumber:(NSNumber *)number;
 @end
