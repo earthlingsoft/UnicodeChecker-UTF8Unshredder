@@ -19,6 +19,7 @@ NSString * const conversionResult = @"conversionResult";
 NSString * const conversionEncoding = @"encoding";
 
 
+
 - (instancetype) init {
 	self = [super init];
 	
@@ -33,11 +34,6 @@ NSString * const conversionEncoding = @"encoding";
 		}
 		else {
 			self.encodingsHandler = [[EncodingsHandlerNS alloc] init];
-		}
-		
-		NSNumber * preferredEncodingPrefsValue = [[NSUserDefaults standardUserDefaults] objectForKey:preferredEncodingDefaultsKey];
-		if (preferredEncodingPrefsValue) {
-			self.preferredEncoding = preferredEncodingPrefsValue;
 		}
 		
 		[self addObserver:self forKeyPath:@"inputString" options:(NSKeyValueObservingOptionNew) context:nil];
@@ -58,127 +54,133 @@ NSString * const conversionEncoding = @"encoding";
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if ([keyPath isEqualToString:@"inputString"]) {
-		// the input string has changed
-
-		// 1. determine possible encodings
-		
-		// build array of encodings that are possible:
-		NSString * s = self.inputString;
-		NSMutableDictionary * conversionResults = [NSMutableDictionary dictionary];
-
-		for (NSNumber * encodingNumber in self.encodingsHandler.encodings) {
-			if ([self.encodingsHandler canConvertString:s toEncoding:encodingNumber]) {
-				// conversion of the string could be done in theory
-				NSString * convertedString = [self.encodingsHandler convert:s forEncoding:encodingNumber];
-				if (convertedString != nil) {
-					// ... and yields a valid UTF-8 string
-					if (![convertedString isEqualToString:s]) {
-						// ... which actually differs from the original
-						conversionResults[encodingNumber] = convertedString;
-					}
-				}
-			}
-		}
-		
-		[self rebuildPopupWithEncodings:conversionResults];
-		
-		// dump results if we don’t have any encodings or if the input is ASCII (to avoid confusing results with Mac OS Symbol encoding)
-		BOOL success = ((conversionResults.count != 0) && (![s canBeConvertedToEncoding:NSASCIIStringEncoding]));
-		self.foundEncodings = @(success);
-		
-		
-		// 2. set output string
-		NSString * result = nil;
-		if (success) {
-			// 2a. determine selected encoding
-			NSNumber * myEncoding;
-			if (conversionResults[self.preferredEncoding]) {
-				// 2a1. Use the preferred Encoding if possible
-				myEncoding = self.preferredEncoding;
-			}
-			else if (conversionResults[self.selectedEncoding]) {
-				// 2a2. otherwise use the currently selected encoding if it remains available
-				myEncoding = self.selectedEncoding;
-			}
-			else {
-				// 2a3. otherwise use the first encoding in the list *fingers crossed*
-				myEncoding = conversionResults.allKeys[0];
-			}
-			self.selectedEncoding = myEncoding;
-			result = [self.encodingsHandler convert:s forEncoding:self.selectedEncoding];
-		}
-		else {
-			// 2b. Copy the input string if there was no conversion.
-			result = [s copy];
-		}
-		
-		// manually select the item in the rebuilt menu (bindings don’t seem to work here)
-		[self.popup selectItemAtIndex:[self.popup.menu indexOfItemWithRepresentedObject:self.selectedEncoding]];
-		
-		// 3. Present result
-		NSString * message = @"";
-		NSString * tooltip = @"";
-		BOOL needPopup = NO;
-		
-		if (success) {
-			// The string could be shredded UTF-8
-			if (conversionResults.count == 1)  {
-				// There is a single working encoding
-				message = [NSString stringWithFormat:@"The input may have been UTF-8 that has been interpreted in the \342\200\234%@\342\200\235 encoding.", [self.encodingsHandler encodingNameForNumber:conversionResults.allKeys[0]], nil];
-			}
-			else {
-				// There are several working encodings
-				NSSet * distinctResults = [NSSet setWithArray:conversionResults.allValues];
-				BOOL encodingsDiffer = (distinctResults.count > 1);
-				
-				if (encodingsDiffer) {
-					// the encodings give different results -> we need the popup menu
-					needPopup = YES;
-					message = @"The input may have been UTF-8 that has been interpreted as:";
-				}
-				else {
-					// the different encodings all give the same result
-					message = [NSString stringWithFormat:@"The input may have been UTF-8. Interpreting it in %lu encodings gives the string below.", (unsigned long)conversionResults.count, nil];
-					
-					NSArray * encodingNames = [self.encodingsHandler encodingNamesForNumbers:conversionResults.allKeys];
-					NSString * encodingNamesString = [encodingNames componentsJoinedByString:@",\n"];
-					tooltip = [NSString stringWithFormat:@"The encodings in question are:\n%@.", encodingNamesString];
-				}
-			}
-		}
-		else {
-			// !success - the string could not have been shredded
-			if (s.length == 0) {
-				// the empty string, print some help
-				message = @"No input.";
-			//	result  = @"If you see a string like \303\203\302\266 where you expected an ö, UTF-8 may have been misinterpreted as an old-fashioned encoding. This utility tries to rectify that problem.";
-			}
-			else if ([s canBeConvertedToEncoding:NSASCIIStringEncoding]) {
-				// the string was actually ASCII, so be helpful and say that.
-				message = @"The input is pure ASCII. Nothing to see here.";
-				tooltip = @"You may want to enter more text or use a different utility.";
-			}
-			else {
-				// the string could not be made sense of
-				message = @"The input did not result from misinterpretation of UTF-8 as one of the known encodings.";
-				
-				NSArray * encodingNames = [self.encodingsHandler encodingNamesForNumbers:self.encodingsHandler.encodings];
-				NSString * encodingNamesString = [encodingNames componentsJoinedByString:@", "];
-				tooltip = [NSString stringWithFormat:@"The known encodings are: %@.", encodingNamesString];
-			}
-		}
-		
-		self.resultString = result;
-		self.resultMessage = message;
-		self.resultTooltip = tooltip;
-		self.needEncodingsPopup = @(needPopup);
+		// new input string => process it
+		[self processString:self.inputString];
 	}
 	else if ([keyPath isEqualToString:@"selectedEncoding"]) {
 		// selected encoding has changed => update output
-		NSString * result = [self.encodingsHandler convert:self.inputString forEncoding:self.selectedEncoding];
-		self.resultString = result;
+		self.resultString = [self.encodingsHandler convert:self.inputString forEncoding:self.selectedEncoding];
 	}
 }
+
+
+
+- (void) processString:(NSString *)s {
+	// 1. Determine possible encodings
+	NSDictionary * conversionResults = [self conversionResultsForString:s];
+	
+	// Only use conversion results if we have working encodings and the input is not ASCII
+	self.foundEncodings = @((conversionResults.count != 0) && (![s canBeConvertedToEncoding:NSASCIIStringEncoding]));
+	
+	// 2. Determine the encoding to select by default
+	NSNumber * encoding = nil;
+	if (self.foundEncodings.boolValue) {
+		// Determine which encoding to select
+		NSNumber * preferredEncoding = [[NSUserDefaults standardUserDefaults] objectForKey:preferredEncodingDefaultsKey];
+		if (preferredEncoding && conversionResults[preferredEncoding]) {
+			// 2a. Use the preferred encoding if available
+			encoding = preferredEncoding;
+		}
+		else if (conversionResults[self.selectedEncoding]) {
+			// 2b. … otherwise use the currently selected encoding if available
+			encoding = self.selectedEncoding;
+		}
+		else {
+			// 2c. … otherwise use the first encoding in the list
+			encoding = conversionResults.allKeys[0];
+		}
+	}
+	
+	// Rebuild the popup menu and select item in it (bindings don’t seem to work here)
+	[self rebuildPopupWithEncodings:conversionResults];
+	[self.popup selectItemAtIndex:[self.popup.menu indexOfItemWithRepresentedObject:self.selectedEncoding]];
+	
+	// 3. Present result
+	NSString * message = @"";
+	NSString * tooltip = @"";
+	BOOL needPopupMenu = NO;
+	
+	if (self.foundEncodings.boolValue) {
+		// The string could be shredded UTF-8
+		if (conversionResults.count == 1)  {
+			// There is a single working encoding
+			message = [NSString stringWithFormat:@"The input may have been UTF-8 that has been interpreted in the \342\200\234%@\342\200\235 encoding.", [self.encodingsHandler encodingNameForNumber:conversionResults.allKeys[0]], nil];
+		}
+		else {
+			// There are several working encodings
+			NSSet * distinctResults = [NSSet setWithArray:conversionResults.allValues];
+			BOOL encodingsDiffer = (distinctResults.count > 1);
+			
+			if (encodingsDiffer) {
+				// the encodings give different results -> we need the popup menu
+				needPopupMenu = YES;
+				message = @"The input may have been UTF-8 that has been interpreted as:";
+			}
+			else {
+				// the different encodings all give the same result
+				message = [NSString stringWithFormat:@"The input may have been UTF-8. Interpreting it in %lu encodings gives the string below.", (unsigned long)conversionResults.count, nil];
+				
+				NSArray * encodingNames = [self.encodingsHandler encodingNamesForNumbers:conversionResults.allKeys];
+				NSString * encodingNamesString = [encodingNames componentsJoinedByString:@",\n"];
+				tooltip = [NSString stringWithFormat:@"The encodings in question are:\n%@.", encodingNamesString];
+			}
+		}
+	}
+	else {
+		// !success - the string could not have been shredded
+		if (s.length == 0) {
+			// the empty string, print some help
+			message = @"No input.";
+			//	result  = @"If you see a string like \303\203\302\266 where you expected an ö, UTF-8 may have been misinterpreted as an old-fashioned encoding. This utility tries to rectify that problem.";
+		}
+		else if ([s canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+			// the string was actually ASCII, so be helpful and say that.
+			message = @"The input is pure ASCII. Nothing to see here.";
+			tooltip = @"You may want to enter more text or use a different utility.";
+		}
+		else {
+			// the string could not be made sense of
+			message = @"The input did not result from misinterpretation of UTF-8 as one of the known encodings.";
+			
+			NSArray * encodingNames = [self.encodingsHandler encodingNamesForNumbers:self.encodingsHandler.encodings];
+			NSString * encodingNamesString = [encodingNames componentsJoinedByString:@", "];
+			tooltip = [NSString stringWithFormat:@"The known encodings are: %@.", encodingNamesString];
+		}
+	}
+	
+	self.selectedEncoding = encoding;
+	self.resultMessage = message;
+	self.resultTooltip = tooltip;
+	self.needEncodingsPopup = @(needPopupMenu);
+}
+
+
+
+/*
+ For the given string return a dictionary with:
+	* keys: feasible encodings
+	* values: encoding results
+*/
+- (NSDictionary *) conversionResultsForString:(NSString *)s {
+	NSMutableDictionary * conversionResults = [NSMutableDictionary dictionary];
+	
+	for (NSNumber * encodingNumber in self.encodingsHandler.encodings) {
+		if ([self.encodingsHandler canConvertString:s toEncoding:encodingNumber]) {
+			// conversion of the string could be done in theory
+			NSString * convertedString = [self.encodingsHandler convert:s forEncoding:encodingNumber];
+			if (convertedString != nil) {
+				// ... and yields a valid UTF-8 string
+				if (![convertedString isEqualToString:s]) {
+					// ... which actually differs from the original
+					conversionResults[encodingNumber] = convertedString;
+				}
+			}
+		}
+	}
+	
+	return [conversionResults copy];
+}
+
 
 
 
@@ -223,8 +225,7 @@ NSString * const conversionEncoding = @"encoding";
 	The IBAction is called after KVO, so we just have to copy selectedEncoding over to preferredEncoding.
 */
 - (IBAction) changedPopupSelection:(id)sender {
-	NSNumber * encodingNumber = self.selectedEncoding;
-	[[NSUserDefaults standardUserDefaults] setValue:encodingNumber forKey:preferredEncodingDefaultsKey];
+	[[NSUserDefaults standardUserDefaults] setValue:self.selectedEncoding forKey:preferredEncodingDefaultsKey];
 }
 
 
@@ -244,7 +245,7 @@ NSString * const conversionEncoding = @"encoding";
 #pragma mark UCUtility protocol
 
 - (void) newInput:(id)sender {
-	[self setValue:[sender stringValue] forKey:@"inputString"];
+	self.inputString = [sender stringValue];
 }
 
 - (NSString *) identifier {
@@ -271,6 +272,10 @@ NSString * const conversionEncoding = @"encoding";
 		[[NSBundle bundleForClass:[self class]] loadNibNamed:@"Unshredder" owner:self topLevelObjects:&nibObjects];
     }
     return self.view;
+}
+
+- (NSView *) initialKeyView {
+	return self.popup;
 }
 
 @end

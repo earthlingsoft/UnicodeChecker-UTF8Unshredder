@@ -22,21 +22,18 @@ extern NSString * const conversionEncoding;
 @property (strong) IBOutlet NSView * view;
 @property (strong) IBOutlet NSPopUpButton * popup;
 
+@property (strong) EncodingsHandler * encodingsHandler;
+
 @property (strong) NSString * inputString;
+
 @property (strong) NSString * resultString;
 @property (strong) NSString * resultMessage;
 @property (strong) NSString * resultTooltip;
 @property (strong) NSNumber * needEncodingsPopup;
 @property (strong) NSNumber * foundEncodings;
-
 @property (strong) NSNumber * selectedEncoding;
-@property (strong) NSNumber * preferredEncoding;
-@property (strong) EncodingsHandler * encodingsHandler;
 
-@property (readonly) BOOL useCarbonEncodings;
 
 - (IBAction) changedPopupSelection:(id)sender;
-
-- (void) rebuildPopupWithEncodings:(NSDictionary *)conversionResults;
 
 @end
