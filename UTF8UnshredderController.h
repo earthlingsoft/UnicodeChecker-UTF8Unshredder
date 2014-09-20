@@ -1,47 +1,42 @@
 //
-//  UTF8UnshredderController.h
-//  UC UTF8 Unshredder
-//
-//  Created by Sven on 08.05.2008.
-//  Copyright 2008-2014 earthlingsoft. All rights reserved.
+// UTF8UnshredderController.h
+// Copyright 2008-2014 Sven-S. Porst, earthlingsoft, http://earthlingsoft.net/ssp
+// Some rights reserved: http://opensource.org/licenses/mit
+// https://github.com/earthlingsoft/UnicodeChecker-UTF8Unshredder
 //
 
 #import <Cocoa/Cocoa.h>
 #import <UCUtility/UCUtility.h>
 
-#define USECARBONPREFSKEY @"UTF-8 Unshredder uses Carbon Text encodings"
-#define INCLUDEEBCDICPREFSKEY @"UTF-8 Unshredder uses EBCDIC Encodings"
-#define PREFERREDENCODINGPREFSKEY @"UTF-8 Unshredder preferred Encoding"
+@class EncodingsHandler;
 
-#define CONVERSIONRESULT @"conversionResult"
-#define CONVERSIONENCODING @"encoding"
 
-@interface UTF8UnshredderController : NSObject <UCUtility> {
-	NSString * inputString;
-	NSString * resultString;
-	NSString * resultMessage;
-	NSString * resultTooltip;
-	NSNumber * needEncodingsPopup;
-	NSNumber * foundEncodings;
-	
-	NSNumber * preferredEncoding;
-	NSNumber * selectedEncoding;
-	
-	NSArray * encodingList;
-	
-	IBOutlet NSPopUpButton * popup;
-	
-	BOOL useCarbonEncodings;
-}
+@interface UTF8UnshredderController : NSObject <UCUtility>
+
+extern NSString * const useCarbonEncodingsDefaultsKey;
+extern NSString * const preferredEncodingDefaultsKey;
+
+extern NSString * const conversionResult;
+extern NSString * const conversionEncoding;
 
 @property (strong) IBOutlet NSView * view;
+@property (strong) IBOutlet NSPopUpButton * popup;
+
+@property (strong) NSString * inputString;
+@property (strong) NSString * resultString;
+@property (strong) NSString * resultMessage;
+@property (strong) NSString * resultTooltip;
+@property (strong) NSNumber * needEncodingsPopup;
+@property (strong) NSNumber * foundEncodings;
+
+@property (strong) NSNumber * selectedEncoding;
+@property (strong) NSNumber * preferredEncoding;
+@property (strong) EncodingsHandler * encodingsHandler;
+
+@property (readonly) BOOL useCarbonEncodings;
 
 - (IBAction) changedPopupSelection:(id)sender;
 
-- (void) rebuildPopupWithEncodings:(NSArray *)encodingsArray;
+- (void) rebuildPopupWithEncodings:(NSDictionary *)conversionResults;
 
-- (NSArray *) buildEncodingList;
-- (BOOL) canConvertString:(NSString *)s toEncoding:(NSNumber *)encodingNumber;
-- (NSString *) convert:(NSString *)input forEncoding:(NSNumber *)encoding;
-- (NSString *) encodingNameForNumber:(NSNumber *)number;
 @end

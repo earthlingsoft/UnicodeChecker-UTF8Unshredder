@@ -20,5 +20,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0a</string>
+	<key>NSPrincipalClass</key>
+	<string>UTF8UnshredderController</string>
 </dict>
 </plist>

@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C17F15819CCDC420053AA93 /* EncodingsHandlerCF.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C17F15719CCDC420053AA93 /* EncodingsHandlerCF.m */; };
 		6CABE3770DD31FA8007FEA3B /* UTF8UnshredderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CABE3760DD31FA7007FEA3B /* UTF8UnshredderController.m */; };
 		6CABE3790DD31FD6007FEA3B /* UCUtility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CABE3780DD31FD6007FEA3B /* UCUtility.framework */; };
 		6CABE3800DD32052007FEA3B /* ESUnicode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CABE37F0DD32052007FEA3B /* ESUnicode.framework */; };
 		6CABE3920DD320B6007FEA3B /* Unshredder.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CABE3910DD320B5007FEA3B /* Unshredder.xib */; };
+		6CE4D63D19CCD994009C8696 /* EncodingsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE4D63C19CCD994009C8696 /* EncodingsHandler.m */; };
+		6CE4D64019CCDBEE009C8696 /* EncodingsHandlerNS.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CE4D63F19CCDBEE009C8696 /* EncodingsHandlerNS.m */; };
 		6CE55CCE0DD608C300D6D56A /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6CE55CCD0DD608C300D6D56A /* Icon.png */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -22,11 +25,18 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* UC UTF8 Unshredder_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UC UTF8 Unshredder_Prefix.pch"; sourceTree = "<group>"; };
+		6C17F15619CCDC420053AA93 /* EncodingsHandlerCF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncodingsHandlerCF.h; path = Code/EncodingsHandlerCF.h; sourceTree = "<group>"; };
+		6C17F15719CCDC420053AA93 /* EncodingsHandlerCF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EncodingsHandlerCF.m; path = Code/EncodingsHandlerCF.m; sourceTree = "<group>"; };
+		6C17F15919CD9CCB0053AA93 /* net.earthlingsoft.UnicodeChecker.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = net.earthlingsoft.UnicodeChecker.plist; path = ../../Library/Preferences/net.earthlingsoft.UnicodeChecker.plist; sourceTree = "<group>"; };
 		6CABE3750DD31FA7007FEA3B /* UTF8UnshredderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTF8UnshredderController.h; sourceTree = "<group>"; };
 		6CABE3760DD31FA7007FEA3B /* UTF8UnshredderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTF8UnshredderController.m; sourceTree = "<group>"; };
 		6CABE3780DD31FD6007FEA3B /* UCUtility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UCUtility.framework; path = /Applications/Text/UnicodeChecker.app/Contents/Frameworks/UCUtility.framework; sourceTree = "<absolute>"; };
 		6CABE37F0DD32052007FEA3B /* ESUnicode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ESUnicode.framework; path = /Applications/Text/UnicodeChecker.app/Contents/Frameworks/ESUnicode.framework; sourceTree = "<absolute>"; };
 		6CABE3910DD320B5007FEA3B /* Unshredder.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Unshredder.xib; sourceTree = "<group>"; };
+		6CE4D63B19CCD994009C8696 /* EncodingsHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncodingsHandler.h; path = Code/EncodingsHandler.h; sourceTree = "<group>"; };
+		6CE4D63C19CCD994009C8696 /* EncodingsHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EncodingsHandler.m; path = Code/EncodingsHandler.m; sourceTree = "<group>"; };
+		6CE4D63E19CCDBEE009C8696 /* EncodingsHandlerNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncodingsHandlerNS.h; path = Code/EncodingsHandlerNS.h; sourceTree = "<group>"; };
+		6CE4D63F19CCDBEE009C8696 /* EncodingsHandlerNS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EncodingsHandlerNS.m; path = Code/EncodingsHandlerNS.m; sourceTree = "<group>"; };
 		6CE55CCD0DD608C300D6D56A /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* UTF8 Unshredder.UCUtility */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UTF8 Unshredder.UCUtility"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,6 +60,7 @@
 		089C166AFE841209C02AAC07 /* UC UTF8 Unshredder */ = {
 			isa = PBXGroup;
 			children = (
+				6C17F15919CD9CCB0053AA93 /* net.earthlingsoft.UnicodeChecker.plist */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -82,8 +93,14 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				6CABE3750DD31FA7007FEA3B /* UTF8UnshredderController.h */,
 				6CABE3760DD31FA7007FEA3B /* UTF8UnshredderController.m */,
+				6CABE3750DD31FA7007FEA3B /* UTF8UnshredderController.h */,
+				6CE4D63C19CCD994009C8696 /* EncodingsHandler.m */,
+				6CE4D63B19CCD994009C8696 /* EncodingsHandler.h */,
+				6CE4D63F19CCDBEE009C8696 /* EncodingsHandlerNS.m */,
+				6CE4D63E19CCDBEE009C8696 /* EncodingsHandlerNS.h */,
+				6C17F15719CCDC420053AA93 /* EncodingsHandlerCF.m */,
+				6C17F15619CCDC420053AA93 /* EncodingsHandlerCF.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -188,6 +205,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6CABE3770DD31FA8007FEA3B /* UTF8UnshredderController.m in Sources */,
+				6CE4D63D19CCD994009C8696 /* EncodingsHandler.m in Sources */,
+				6C17F15819CCDC420053AA93 /* EncodingsHandlerCF.m in Sources */,
+				6CE4D64019CCDBEE009C8696 /* EncodingsHandlerNS.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
