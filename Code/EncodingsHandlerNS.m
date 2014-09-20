@@ -48,9 +48,9 @@
  Convert the string s to the string encoding with the given encodingNumber.
 */
 - (NSString *) convert:(NSString *)input forEncoding:(NSNumber *)encodingNumber {
-	NSString * result = @"";
+	NSString * result = nil;
 	
-	if ([input length] > 0) {
+	if (input.length > 0 && encodingNumber != nil) {
 		const char * chars;
 		chars = [input cStringUsingEncoding:encodingNumber.unsignedLongValue];
 		result = [[NSString alloc] initWithBytes:chars length:strlen(chars) encoding:NSUTF8StringEncoding];
