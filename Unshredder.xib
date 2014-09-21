@@ -15,11 +15,11 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView id="1" userLabel="View">
-            <rect key="frame" x="0.0" y="0.0" width="287" height="174"/>
+            <rect key="frame" x="0.0" y="5" width="287" height="176"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" id="11">
-                    <rect key="frame" x="17" y="116" width="253" height="46"/>
+                    <rect key="frame" x="18" y="118" width="251" height="46"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="The text could be wrongly encoded using: Quick brown foxy lazy doggy. Hamburgefons. Crazy." id="12">
                         <font key="font" metaFont="smallSystem"/>
@@ -78,6 +78,7 @@
                     </connections>
                 </textField>
             </subviews>
+            <point key="canvasLocation" x="139.5" y="155"/>
         </customView>
     </objects>
 </document>
