@@ -28,6 +28,7 @@
 		6C17F15619CCDC420053AA93 /* EncodingsHandlerCF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncodingsHandlerCF.h; path = Code/EncodingsHandlerCF.h; sourceTree = "<group>"; };
 		6C17F15719CCDC420053AA93 /* EncodingsHandlerCF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EncodingsHandlerCF.m; path = Code/EncodingsHandlerCF.m; sourceTree = "<group>"; };
 		6C17F15919CD9CCB0053AA93 /* net.earthlingsoft.UnicodeChecker.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = net.earthlingsoft.UnicodeChecker.plist; path = ../../Library/Preferences/net.earthlingsoft.UnicodeChecker.plist; sourceTree = "<group>"; };
+		6C7D609819CEFB4500CFFA5A /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		6CABE3750DD31FA7007FEA3B /* UTF8UnshredderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8UnshredderController.h; path = Code/UTF8UnshredderController.h; sourceTree = "<group>"; };
 		6CABE3760DD31FA7007FEA3B /* UTF8UnshredderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UTF8UnshredderController.m; path = Code/UTF8UnshredderController.m; sourceTree = "<group>"; };
 		6CABE3780DD31FD6007FEA3B /* UCUtility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UCUtility.framework; path = /Applications/Text/UnicodeChecker.app/Contents/Frameworks/UCUtility.framework; sourceTree = "<absolute>"; };
@@ -60,6 +61,7 @@
 		089C166AFE841209C02AAC07 /* UC UTF8 Unshredder */ = {
 			isa = PBXGroup;
 			children = (
+				6C7D609819CEFB4500CFFA5A /* Readme.md */,
 				6C17F15919CD9CCB0053AA93 /* net.earthlingsoft.UnicodeChecker.plist */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
