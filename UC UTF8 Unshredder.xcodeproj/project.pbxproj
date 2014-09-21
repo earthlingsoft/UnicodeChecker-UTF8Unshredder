@@ -24,12 +24,12 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		32DBCF630370AF2F00C91783 /* UC UTF8 Unshredder_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UC UTF8 Unshredder_Prefix.pch"; sourceTree = "<group>"; };
+		32DBCF630370AF2F00C91783 /* UC UTF8 Unshredder_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UC UTF8 Unshredder_Prefix.pch"; path = "Code/UC UTF8 Unshredder_Prefix.pch"; sourceTree = "<group>"; };
 		6C17F15619CCDC420053AA93 /* EncodingsHandlerCF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EncodingsHandlerCF.h; path = Code/EncodingsHandlerCF.h; sourceTree = "<group>"; };
 		6C17F15719CCDC420053AA93 /* EncodingsHandlerCF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EncodingsHandlerCF.m; path = Code/EncodingsHandlerCF.m; sourceTree = "<group>"; };
 		6C17F15919CD9CCB0053AA93 /* net.earthlingsoft.UnicodeChecker.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = net.earthlingsoft.UnicodeChecker.plist; path = ../../Library/Preferences/net.earthlingsoft.UnicodeChecker.plist; sourceTree = "<group>"; };
-		6CABE3750DD31FA7007FEA3B /* UTF8UnshredderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UTF8UnshredderController.h; sourceTree = "<group>"; };
-		6CABE3760DD31FA7007FEA3B /* UTF8UnshredderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UTF8UnshredderController.m; sourceTree = "<group>"; };
+		6CABE3750DD31FA7007FEA3B /* UTF8UnshredderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UTF8UnshredderController.h; path = Code/UTF8UnshredderController.h; sourceTree = "<group>"; };
+		6CABE3760DD31FA7007FEA3B /* UTF8UnshredderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UTF8UnshredderController.m; path = Code/UTF8UnshredderController.m; sourceTree = "<group>"; };
 		6CABE3780DD31FD6007FEA3B /* UCUtility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UCUtility.framework; path = /Applications/Text/UnicodeChecker.app/Contents/Frameworks/UCUtility.framework; sourceTree = "<absolute>"; };
 		6CABE37F0DD32052007FEA3B /* ESUnicode.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ESUnicode.framework; path = /Applications/Text/UnicodeChecker.app/Contents/Frameworks/ESUnicode.framework; sourceTree = "<absolute>"; };
 		6CABE3910DD320B5007FEA3B /* Unshredder.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Unshredder.xib; sourceTree = "<group>"; };
@@ -241,7 +241,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UC UTF8 Unshredder_Prefix.pch";
+				GCC_PREFIX_HEADER = "Code/UC UTF8 Unshredder_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_NAME = "UTF8 Unshredder";
@@ -262,7 +262,7 @@
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UC UTF8 Unshredder_Prefix.pch";
+				GCC_PREFIX_HEADER = "Code/UC UTF8 Unshredder_Prefix.pch";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				PRODUCT_NAME = "UTF8 Unshredder";
