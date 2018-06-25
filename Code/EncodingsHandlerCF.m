@@ -54,7 +54,7 @@
 */
 - (BOOL) canConvertString:(NSString *)s toEncoding:(NSNumber *)encodingNumber {
 	CFStringRef CFs = (__bridge CFStringRef)s;
-	CFStringEncoding encoding = encodingNumber.unsignedLongValue;
+	CFStringEncoding encoding = encodingNumber.unsignedIntValue;
 	CFRange range = CFRangeMake(0, CFStringGetLength(CFs));
 	CFIndex numChars = CFStringGetBytes(CFs, range, encoding, 0, NO, nil, 0, nil);
 	
@@ -76,7 +76,7 @@
 		while (rangeToProcess.length > 0) {
 			UInt8 localBuffer[100];
 			CFIndex usedBufferLength;
-			CFIndex numChars = CFStringGetBytes((CFStringRef)input, rangeToProcess, encodingNumber.unsignedLongValue, 0, FALSE, (UInt8 *)localBuffer, 100, &usedBufferLength);
+			CFIndex numChars = CFStringGetBytes((CFStringRef)input, rangeToProcess, encodingNumber.unsignedIntValue, 0, FALSE, (UInt8 *)localBuffer, 100, &usedBufferLength);
 			[stringData appendBytes:(UInt8 *)localBuffer length:usedBufferLength];
 			
 			if (numChars == 0 || numChars != rangeToProcess.length) {
@@ -101,7 +101,7 @@
  Return the name of the encoding with the number passed.
 */
 - (NSString *) encodingNameForNumber:(NSNumber *)encodingNumber {
-	return (NSString *)CFStringGetNameOfEncoding(encodingNumber.unsignedLongValue);
+	return (NSString *)CFStringGetNameOfEncoding(encodingNumber.unsignedIntValue);
 }
 
 @end
